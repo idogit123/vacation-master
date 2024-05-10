@@ -7,7 +7,8 @@
         "sourceMap": false,
         "moduleResolution": "Bundler",
         "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "outDir": "src/javascript"
     },
     "exclude": [
         "node_modules/**"

@@ -1,9 +1,24 @@
+import { Readable } from 'stream';
 import styles from './style.module.css'
 
 async function submitSignupForm(formData: FormData)
 {
     "use server";
-    console.log(formData)
+    const response = await fetch(
+        'http://localhost:8080/signup',
+        {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": JSON.stringify({
+                name: formData.get('name'),
+                password: formData.get('password'),
+                role: formData.get('role')
+            })
+        }
+    )
+    console.log(await response.json())
 }
 
 export default function SignupPage() {

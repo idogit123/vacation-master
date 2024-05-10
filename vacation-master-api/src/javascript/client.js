@@ -1,13 +1,11 @@
 import { DocumentStore } from "ravendb";
 import { readFileSync } from 'fs';
-import Pet from "./pet.js";
 const authOptions = {
     certificate: readFileSync("./certificate/Client.pfx"),
     type: "pfx",
     password: "user123"
 };
-const documentStore = new DocumentStore("https://a.free.idodb.ravendb.cloud", "Test", authOptions);
-documentStore.conventions.registerEntityType(Pet);
+const documentStore = new DocumentStore("https://a.free.idodb.ravendb.cloud", "Vacation", authOptions);
 documentStore.initialize();
 console.log("created a document store");
 export async function getPet() {
