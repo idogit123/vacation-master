@@ -1,5 +1,6 @@
-import { DocumentStore, IAuthOptions } from "ravendb";
+import { DocumentStore, IAuthOptions, ObjectTypeDescriptor } from "ravendb";
 import { readFileSync } from 'fs'
+import { User } from "./data_types.js";
 
 const authOptions: IAuthOptions = {
     certificate: readFileSync("./certificate/Client.pfx"),
@@ -9,14 +10,13 @@ const authOptions: IAuthOptions = {
 
 const documentStore = new DocumentStore("https://a.free.idodb.ravendb.cloud", "Vacation", authOptions);
 
+documentStore.conventions.registerEntityType(User)
 documentStore.initialize();
 
 console.log("created a document store")
 
-export async function getPet(){
+export async function storeUser(user: User) {
     const session = documentStore.openSession()
-    const pet = await session.load("pets/1-A")
+    await session.store<User>(user)
     await session.saveChanges()
-
-    return pet
 }

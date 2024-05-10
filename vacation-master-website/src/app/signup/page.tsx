@@ -1,9 +1,9 @@
-import { Readable } from 'stream';
 import styles from './style.module.css'
 
 async function submitSignupForm(formData: FormData)
 {
     "use server";
+
     const response = await fetch(
         'http://localhost:8080/signup',
         {
@@ -40,7 +40,7 @@ export default function SignupPage() {
                         <p className={styles.p}>Role:</p>
                         <select name="role">
                             <option value="employee">Employee</option>
-                            <option value="employee">Manager</option>
+                            <option value="manager">Manager</option>
                         </select>
                     </label>
                 </div>
