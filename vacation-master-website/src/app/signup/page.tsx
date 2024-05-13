@@ -3,7 +3,6 @@ import styles from './style.module.css'
 async function submitSignupForm(formData: FormData)
 {
     "use server";
-
     const response = await fetch(
         'http://localhost:8080/signup',
         {
@@ -18,6 +17,7 @@ async function submitSignupForm(formData: FormData)
             })
         }
     )
+
     console.log(await response.json())
 }
 

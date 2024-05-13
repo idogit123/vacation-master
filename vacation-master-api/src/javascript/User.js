@@ -1,31 +1,18 @@
-export var RequestStatus;
-(function (RequestStatus) {
-    RequestStatus[RequestStatus["pending"] = 0] = "pending";
-    RequestStatus[RequestStatus["approved"] = 1] = "approved";
-    RequestStatus[RequestStatus["rejected"] = 2] = "rejected";
-})(RequestStatus || (RequestStatus = {}));
-export class User {
+export default class User {
     name;
     password;
     role;
+    id;
     constructor(name, password, role) {
         this.name = name;
         this.password = password;
         this.role = role;
+        this.id = null;
     }
-    static typeDescriptor() {
-        return {
-            name: "User",
-            construct: "User",
-            isType(entity) {
-                return entity && entity.name && entity.password && entity.role;
-            }
-        };
-    }
-    static fromJson(json) {
-        const name = json.name;
-        const password = json.password;
-        const role = json.role;
+    static fromObject(object) {
+        const name = object.name;
+        const password = object.password;
+        const role = object.role;
         if (name == null || name.length == 0 || password == null || password.length == 0 || role == null)
             throw TypeError('Name, password or role are invalid.');
         return new User(name, password, role);
@@ -34,6 +21,9 @@ export class User {
         if (this.role == "employee")
             return new Employee(this.name, this.password);
         return new Manager(this.name, this.password);
+    }
+    setId(id) {
+        this.id = id;
     }
 }
 export class Employee extends User {
@@ -52,17 +42,5 @@ export class Manager extends User {
         super(name, password, 'manager');
         this.employees = [];
         this.pendingVacationRequests = [];
-    }
-}
-export class VacationRequest {
-    employee;
-    startDate;
-    endDate;
-    status;
-    constructor(employee, startDate, endDate) {
-        this.employee = employee;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = RequestStatus.pending;
     }
 }

@@ -1,42 +1,30 @@
-export type Role = 'employee' | 'manager'
+import VacationRequest from "./Request"
 
-export enum RequestStatus {
-    'pending',
-    'approved',
-    'rejected'
-}
-
-interface UserData {
+type Role = 'employee' | 'manager'
+type UserObject = {
     name: string
     password: string
     role: Role
+    id: string
 }
 
-export class User {
+export default class User {
     name: string;
     password: string;
     role: Role;
+    id: null | string;
 
     constructor(name: string, password: string, role: Role) {
-        this.name = name;
-        this.password = password;
-        this.role = role;
+        this.name = name
+        this.password = password
+        this.role = role
+        this.id = null
     }
 
-    static typeDescriptor() {
-        return {
-            name: "User",
-            construct: "User",
-            isType(entity: any) {
-                return entity && entity.name && entity.password && entity.role
-            }
-        }
-    }
-
-    static fromJson(json: UserData) {
-        const name = json.name
-        const password = json.password
-        const role: Role = json.role
+    static fromObject(object: UserObject) {
+        const name = object.name
+        const password = object.password
+        const role: Role = object.role
 
         if (name == null || name.length == 0 || password == null || password.length == 0 || role == null)
             throw TypeError('Name, password or role are invalid.')
@@ -49,6 +37,10 @@ export class User {
             return new Employee(this.name, this.password)
 
         return new Manager(this.name, this.password)
+    }
+
+    setId(id: string) {
+        this.id = id
     }
 }
 
@@ -73,19 +65,5 @@ export class Manager extends User {
 
         this.employees = [];
         this.pendingVacationRequests = [];
-    }
-}
-
-export class VacationRequest {
-    employee: Employee;
-    startDate: Date;
-    endDate: Date;
-    status: RequestStatus;
-
-    constructor(employee: Employee, startDate: Date, endDate: Date) {
-        this.employee = employee;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = RequestStatus.pending;
     }
 }
