@@ -1,6 +1,6 @@
 import { DocumentStore } from "ravendb";
 import { readFileSync } from 'fs';
-import { User } from "./User.js";
+import User from "./types/User.js";
 const authOptions = {
     certificate: readFileSync("./certificate/Client.pfx"),
     type: "pfx",
@@ -12,14 +12,22 @@ documentStore.initialize();
 console.log("created a document store");
 export async function storeUser(user) {
     const session = documentStore.openSession();
-    const usersCollection = user.role + 's';
-    const queryForExistingUser = session.query({ collection: usersCollection })
+    const queryForExistingUser = session.query({ collection: 'users' })
         .whereEquals('name', user.name);
     const existingUser = await queryForExistingUser.firstOrNull();
     if (existingUser == null) {
-        await session.store(user);
+        const id = user.name.replace(' ', '-').toLowerCase();
+        await session.store(user, id);
         await session.saveChanges();
         return user;
     }
     return existingUser;
+}
+export async function getUser(user_id) {
+    const session = documentStore.openSession();
+    const user = await session
+        .include('data')
+        .load(user_id);
+    const manager = await session.load(user?.manager);
+    return user;
 }

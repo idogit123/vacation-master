@@ -3,19 +3,24 @@ export default class User {
     password;
     role;
     id;
-    constructor(name, password, role) {
+    data;
+    constructor(name, password, role, id = null) {
         this.name = name;
         this.password = password;
         this.role = role;
-        this.id = null;
+        this.id = id;
+        this.data = null;
     }
     static fromObject(object) {
         const name = object.name;
         const password = object.password;
         const role = object.role;
-        if (name == null || name.length == 0 || password == null || password.length == 0 || role == null)
+        const id = object?.id;
+        console.log(object);
+        if (name == null || name.length == 0 || password == null || password.length == 0 || role == null) {
             throw TypeError('Name, password or role are invalid.');
-        return new User(name, password, role);
+        }
+        return new User(name, password, role, id);
     }
     getRole() {
         if (this.role == "employee")

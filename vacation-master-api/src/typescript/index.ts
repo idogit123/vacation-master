@@ -1,6 +1,6 @@
 import express from 'express';
-import User from './User.js';
-import { storeUser } from './client.js';
+import User from './types/User.js';
+import { getUser, storeUser } from './client.js';
 
 const PORT = 8080
 const app = express()
@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json())
 
 app.post('/signup', async (req, res) => {
-    const user = User.fromObject(req.body).getRole()
+    const user = User.fromObject(req.body)
     
     console.log(`signup request from ${user.name}`)
 
@@ -18,6 +18,27 @@ app.post('/signup', async (req, res) => {
         signup: "success",
         data: logedUser
     })
+})
+
+app.get('/user/:id', async (req, res) => {
+    const user_id = req.params.id
+    
+    const user = await getUser(user_id)
+
+    if (user == null)
+    {
+        res.status(404).send(
+            {message: 'User not found'}
+        )
+    } 
+    else
+    {
+        res.status(200).send(
+            {
+                user: user
+            }
+        )
+    } 
 })
 
 app.listen(

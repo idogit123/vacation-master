@@ -1,4 +1,7 @@
 import styles from './style.module.css'
+import User from '../types/User';
+import { redirect } from 'next/navigation';
+import { NextRequest } from 'next/server';
 
 async function submitSignupForm(formData: FormData)
 {
@@ -18,7 +21,8 @@ async function submitSignupForm(formData: FormData)
         }
     )
 
-    console.log(await response.json())
+   const user = User.fromObject((await response.json()).data)
+   redirect(`/${user.role}?user_id=${user.id}`)
 }
 
 export default function SignupPage() {

@@ -17,9 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body id={styles.body} className={inter.className}>
-        <section id={styles.topbar}>
+        <header id={styles.topbar}>
           <h1 id={styles.title}>Vacation Master ✈️🌍🌴</h1>
-        </section>
+        </header>
         { children }
       </body>
     </html>
