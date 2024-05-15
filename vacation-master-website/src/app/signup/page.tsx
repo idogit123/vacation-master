@@ -1,7 +1,6 @@
-import styles from './style.module.css'
+import styles from '../styles/form.module.css'
 import User from '../types/User';
 import { redirect } from 'next/navigation';
-import { NextRequest } from 'next/server';
 
 async function submitSignupForm(formData: FormData)
 {

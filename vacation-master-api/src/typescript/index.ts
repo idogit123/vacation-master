@@ -20,25 +20,8 @@ app.post('/signup', async (req, res) => {
     })
 })
 
-app.get('/user/:id', async (req, res) => {
-    const user_id = req.params.id
-    
-    const user = await getUser(user_id)
-
-    if (user == null)
-    {
-        res.status(404).send(
-            {message: 'User not found'}
-        )
-    } 
-    else
-    {
-        res.status(200).send(
-            {
-                user: user
-            }
-        )
-    } 
+app.post('/new', async (req, res) => {
+    req.body
 })
 
 app.listen(
