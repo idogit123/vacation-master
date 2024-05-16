@@ -37,6 +37,12 @@
 
 #table tr:last-child {
     border-bottom: none;
+    display: table-row;
+}
+
+#table tr:last-child button {
+    margin: 1rem;
+    width: auto;
 }
 
 #table tr td[datatype="status"] p::after {
@@ -67,7 +73,24 @@
     margin-left: .5rem;
 }
 
+#table tr td[datatype="duration"] p::after {
+    content: '⌛';
+    margin-left: .5rem;
+}
+
 #table p {
     margin: 0;
     width: fit-content;
+}
+
+#newVacationsButton {
+    margin-top: 1rem;
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    border-radius: 50%;
+    background-color: lightskyblue;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

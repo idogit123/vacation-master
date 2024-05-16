@@ -1,6 +1,6 @@
 import express from 'express';
 import { User } from './types/User.js';
-import { postRequest, storeUser, getUser, getVacations } from './client.js';
+import { postRequest, storeUser, getUser, getVacations, getEmployees } from './client.js';
 const PORT = 8080;
 const app = express();
 app.use(express.json());
@@ -27,7 +27,7 @@ app.get('/login/:name', async (req, res) => {
 app.post('/new', async (req, res) => {
     const { startDate, endDate, user_id } = req.body;
     await postRequest(new Date(startDate), new Date(endDate), user_id);
-    res.status(200).send();
+    res.status(200).send({ success: true });
 });
 app.get('/vacations/:id', async (req, res) => {
     const vacations = await getVacations(req.params.id);
@@ -35,5 +35,10 @@ app.get('/vacations/:id', async (req, res) => {
         res.status(404).send('no vacations found');
     else
         res.status(200).send(vacations);
+});
+app.get('/employees/:manager_id', async (req, res) => {
+    const manager = req.params.manager_id;
+    const employees = await getEmployees(manager);
+    res.status(200).send(employees);
 });
 app.listen(PORT, () => { console.log(`listening on port: ${PORT}`); });

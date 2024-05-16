@@ -72,3 +72,23 @@ export async function getVacations(user_id: string)
 
     return vacations
 }
+
+export async function getEmployees(manager_id: string)
+{
+    const session = documentStore.openSession()
+
+    const newEmployees = await session.query<Employee>({ collection: 'Users' })
+        .whereExists('manager')
+        .whereEquals('manager', null)
+        .lazily()
+    
+    const managerEmployees = await session.query<Employee>({ collection: 'Users' })
+        .whereExists('manager')
+        .whereEquals('manager', manager_id)
+        .lazily()
+
+    return {
+        newEmployees: await newEmployees.getValue(),
+        managerEmployees: await managerEmployees.getValue()
+    }
+}

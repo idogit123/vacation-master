@@ -3,13 +3,13 @@ import { Employee } from "./User";
 type RequestStatus = 'pending' | 'approved' | 'rejected'
 
 export default class VacationRequest {
-    employee: Employee;
-    startDate: Date;
-    endDate: Date;
+    employee_id: string;
+    startDate: string;
+    endDate: string;
     status: RequestStatus;
 
-    constructor(employee: Employee, startDate: Date, endDate: Date) {
-        this.employee = employee;
+    constructor(employee_id: string, startDate: string, endDate: string) {
+        this.employee_id = employee_id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = 'pending';

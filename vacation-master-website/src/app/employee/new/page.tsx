@@ -1,4 +1,6 @@
 import styles from '@/app/styles/form.module.css'
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export default function NewRequestPage(
     { searchParams: { user_id } }: { searchParams: { user_id: string } }
@@ -22,7 +24,10 @@ export default function NewRequestPage(
             }
         )
 
-        console.log(await response.json())
+        if ((await response.json()).success) {
+            revalidatePath(`/employee?user_id=${user_id}`)
+            redirect(`/employee?user_id=${user_id}`)
+        }
     }
 
     return <main id={styles.page}>

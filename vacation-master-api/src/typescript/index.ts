@@ -1,6 +1,6 @@
 import express from 'express';
 import { User } from './types/User.js';
-import { postRequest, storeUser, getUser, getVacations } from './client.js';
+import { postRequest, storeUser, getUser, getVacations, getEmployees } from './client.js';
 
 const PORT = 8080
 const app = express()
@@ -50,7 +50,7 @@ app.post('/new', async (req, res) => {
         user_id
     )
 
-    res.status(200).send()
+    res.status(200).send({ success: true })
 })
 
 app.get('/vacations/:id', async (req, res) => {
@@ -61,6 +61,13 @@ app.get('/vacations/:id', async (req, res) => {
 
     else
         res.status(200).send(vacations)
+})
+
+app.get('/employees/:manager_id', async (req, res) => {
+    const manager = req.params.manager_id
+    const employees = await getEmployees(manager)
+
+    res.status(200).send(employees)
 })
 
 app.listen(
