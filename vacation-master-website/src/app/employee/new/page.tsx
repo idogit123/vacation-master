@@ -1,21 +1,34 @@
 import styles from '@/app/styles/form.module.css'
 
-async function postNewRequest(formData: FormData, user_id: string) {
-    "use server";
-    
-    const startDate = new Date(formData.get("startDate") as string | null ?? "")
-    const endDate = new Date(formData.get("endDate") as string | null ?? "")
-
-    const response = await fetch('http://localhost:8080/signup')
-}
-
 export default function NewRequestPage(
     { searchParams: { user_id } }: { searchParams: { user_id: string } }
 ) {
+
+    async function postNewRequest(formData: FormData) {
+        "use server";
+    
+        const response = await fetch(
+            'http://localhost:8080/new',
+            {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": JSON.stringify({
+                    startDate: formData.get("startDate"),
+                    endDate: formData.get('endDate'),
+                    user_id: user_id
+                })
+            }
+        )
+
+        console.log(await response.json())
+    }
+
     return <main id={styles.page}>
         <div id={styles.container}>
             <h2 id={styles.title}>New Vacation Request</h2>
-            <form action={(formData: FormData) => postNewRequest(formData, user_id)} id={styles.form}>
+            <form action={postNewRequest} id={styles.form}>
                 <div id={styles.labelContainer}>
                     <label>
                         <p className={styles.p}>Start Date:</p>

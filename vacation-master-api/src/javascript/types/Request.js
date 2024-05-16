@@ -1,12 +1,14 @@
 export default class VacationRequest {
-    employee;
+    employee_id;
     startDate;
     endDate;
     status;
-    constructor(employee, startDate, endDate) {
-        this.employee = employee;
+    id;
+    constructor(employee_id, startDate, endDate) {
+        this.employee_id = employee_id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = 'pending';
+        this.id = "";
     }
 }

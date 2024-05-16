@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 
 
-export async function ManagerPage()
+export default async function ManagerPage()
 {
-    redirect('/employees')
+    redirect('/manager/employees')
 }

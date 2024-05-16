@@ -28,7 +28,7 @@ export default function SignupPage() {
 
     return <main id={styles.page}>
         <div id={styles.container}>
-            <h2 id={styles.title}>Signup page</h2>
+            <h2 id={styles.title}>Signup</h2>
             <form action={submitSignupForm} id={styles.form}>
                 <div id={styles.labelContainer}>
                     <label>
