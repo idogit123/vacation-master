@@ -30,6 +30,7 @@ export async function storeUser(user: Manager | Employee) {
         return user
     }
 
+    await session.saveChanges()
     return existingUser
 }
 
@@ -39,6 +40,7 @@ export async function getUser(user: {name: string, password: string})
     const logedUser = await session.query<User>({ collection: 'Users' })
         .whereEquals('name', user.name)
         .firstOrNull()
+    await session.saveChanges()
 
     if (logedUser == null) 
         return { error: 'User not found' }
@@ -53,15 +55,20 @@ export async function getUser(user: {name: string, password: string})
 export async function postRequest(startDate: Date, endDate: Date, user_id: string)
 {
     const session = documentStore.openSession()
-    const employee = await session.load<Employee>(user_id)
-    if (employee == null) 
-        return null
 
     const request = new VacationRequest(user_id, startDate, endDate)
     await session.store<VacationRequest>(request)
-    employee.vacationRequests.push(request.id)
+    await session.saveChanges()
+}
 
+export async function getVacations(user_id: string)
+{
+    const session = documentStore.openSession()
+
+    const vacations = await session.query<VacationRequest>({ collection: 'VacationRequests' })
+        .whereEquals('employee_id', user_id)
+        .all()
     await session.saveChanges()
 
-    return employee.vacationRequests
+    return vacations
 }

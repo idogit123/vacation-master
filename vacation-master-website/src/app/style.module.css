@@ -1,8 +1,9 @@
 #topbar {
     border-bottom: 1px solid black;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 }
 
 #title {
-    margin: 1rem 0;
+    font-size: 1.5rem;
+    margin: .5rem 0;
 }

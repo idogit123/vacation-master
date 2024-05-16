@@ -1,6 +1,6 @@
 import express from 'express';
 import { User } from './types/User.js';
-import { postRequest, storeUser, getUser } from './client.js';
+import { postRequest, storeUser, getUser, getVacations } from './client.js';
 const PORT = 8080;
 const app = express();
 app.use(express.json());
@@ -26,11 +26,14 @@ app.get('/login/:name', async (req, res) => {
 });
 app.post('/new', async (req, res) => {
     const { startDate, endDate, user_id } = req.body;
-    const userRequests = await postRequest(new Date(startDate), new Date(endDate), user_id);
-    if (userRequests == null)
-        res.status(404).send('User not found');
-    res.status(200).send({
-        vacationRequests: userRequests
-    });
+    await postRequest(new Date(startDate), new Date(endDate), user_id);
+    res.status(200).send();
+});
+app.get('/vacations/:id', async (req, res) => {
+    const vacations = await getVacations(req.params.id);
+    if (vacations == null)
+        res.status(404).send('no vacations found');
+    else
+        res.status(200).send(vacations);
 });
 app.listen(PORT, () => { console.log(`listening on port: ${PORT}`); });

@@ -1,0 +1,73 @@
+#title {
+    margin: 0 0;
+    margin-bottom: 1rem;
+}
+
+#table {
+    margin-top: .5rem;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: .5rem;
+    border-collapse: collapse;
+}
+
+#table th {
+    text-align: left;
+    padding: 1rem 1rem 0 1rem;
+    font-size: 1.25rem;
+}
+
+#table td {
+    padding: 1rem 1rem;
+}
+
+#table tr {
+    padding: 0 1rem;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+#table tr:first-child {
+    border: none;
+}
+
+#table tr:nth-child(2) {
+    border-top: none;
+}
+
+#table tr:last-child {
+    border-bottom: none;
+}
+
+#table tr td[datatype="status"] p::after {
+    content: '';
+    width: .5rem;
+    height: .5rem;
+    border: 1px solid white;
+    display: inline-block;
+    border-radius: 50%;
+    margin-left: .5rem;
+}
+
+#table tr[data-status="pending"] td[datatype="status"] p::after {
+    background-color: yellow;
+}
+
+#table tr[data-status="approved"] td[datatype="status"] p::after {
+    background-color: green;
+}
+
+#table tr[data-status="rejected"] td[datatype="status"] p::after {
+    background-color: red;
+}
+
+#table tr td[datatype="start-date"] p::after,
+#table tr td[datatype="end-date"] p::after {
+    content: '🗓️';
+    margin-left: .5rem;
+}
+
+#table p {
+    margin: 0;
+    width: fit-content;
+}
