@@ -12,9 +12,9 @@ export default class User {
     name: string;
     password: string;
     role: Role;
-    id: null | string;
+    id: string;
 
-    constructor(name: string, password: string, role: Role, id: null | string = null) {
+    constructor(name: string, password: string, role: Role, id: string) {
         this.name = name
         this.password = password
         this.role = role
@@ -46,7 +46,7 @@ export class Employee extends User {
     manager: string | null;
     vacationRequest: VacationRequest[];
 
-    constructor(name: string, password: string, id: string | null) {
+    constructor(name: string, password: string, id: string) {
         super(name, password, 'employee', id);
 
         this.manager = null;
@@ -58,7 +58,7 @@ export class Manager extends User {
     employees: Employee[];
     pendingVacationRequests: VacationRequest[];
 
-    constructor(name: string, password: string, id: string | null) {
+    constructor(name: string, password: string, id: string) {
         super(name, password, 'manager', id);
 
         this.employees = [];

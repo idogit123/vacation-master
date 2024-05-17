@@ -4,10 +4,10 @@ export default function EmployeeLayout(
     { children }: Readonly<{ children: React.ReactNode }>
 ) {
     return <>
-        <nav>
+        {/* <nav>
             <div className="">Employees</div>
             <div className="">Pending Requests</div>
-        </nav>
+        </nav> */}
         { children }
     </>
 }

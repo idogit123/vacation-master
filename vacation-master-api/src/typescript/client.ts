@@ -92,3 +92,17 @@ export async function getEmployees(manager_id: string)
         managerEmployees: await managerEmployees.getValue()
     }
 }
+
+export async function recruitEmployee(employee_id: string, manager_id: string)
+{
+    const session = documentStore.openSession()
+
+    const employee = await session.load<Employee>(employee_id)
+    if (employee == null)
+        return false
+
+    employee.manager = manager_id
+    await session.saveChanges()
+
+    return true
+}

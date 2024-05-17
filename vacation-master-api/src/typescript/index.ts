@@ -1,6 +1,6 @@
 import express from 'express';
 import { User } from './types/User.js';
-import { postRequest, storeUser, getUser, getVacations, getEmployees } from './client.js';
+import { postRequest, storeUser, getUser, getVacations, getEmployees, recruitEmployee } from './client.js';
 
 const PORT = 8080
 const app = express()
@@ -64,10 +64,18 @@ app.get('/vacations/:id', async (req, res) => {
 })
 
 app.get('/employees/:manager_id', async (req, res) => {
-    const manager = req.params.manager_id
-    const employees = await getEmployees(manager)
 
-    res.status(200).send(employees)
+    res.status(200).send(
+        await getEmployees(req.params.manager_id)
+    )
+})
+
+app.put('/recruit/:employee_id', async (req, res) => {
+    if (await recruitEmployee(req.params.employee_id, req.query.manager_id as string))
+        res.status(200).send()
+
+    else 
+        res.status(404).send({ message: 'Employee not found' })
 })
 
 app.listen(

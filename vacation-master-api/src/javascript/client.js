@@ -67,3 +67,12 @@ export async function getEmployees(manager_id) {
         managerEmployees: await managerEmployees.getValue()
     };
 }
+export async function recruitEmployee(employee_id, manager_id) {
+    const session = documentStore.openSession();
+    const employee = await session.load(employee_id);
+    if (employee == null)
+        return false;
+    employee.manager = manager_id;
+    await session.saveChanges();
+    return true;
+}

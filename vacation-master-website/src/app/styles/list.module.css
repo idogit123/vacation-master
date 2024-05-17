@@ -1,0 +1,42 @@
+#listPage {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.listContainer {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: .5rem;
+    flex-grow: .4;
+    padding: .5rem;
+}
+
+.listContainer h2 {
+    margin: 0;
+    margin-bottom: .5rem;
+}
+
+.listContainer li div {
+    display: flex;
+    column-gap: 1rem;
+    align-items: center;
+}
+
+.listContainer li p {
+    margin: 0;
+}
+
+.listContainer li button {
+    border: 1px dashed black;
+    font-size: 1.3rem;
+    color: white;
+    background-color: lightskyblue;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
+    border-radius: 5%;
+    transition: box-shadow 0.35s, border-radius 0.35s;
+}
+
+.listContainer li button:hover {
+    border: 1px solid black;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
