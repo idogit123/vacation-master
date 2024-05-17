@@ -1,19 +1,34 @@
 import VacationRequest from "@/app/types/Request";
-
-function convertIdToName(id: string): string {
-    const words = id.split('-')
-    words.forEach((word, index) => {
-        words[index] = word.charAt(0).toUpperCase() + word.slice(1)
-    })
-    return words.join(' ')
-}
+import ActionButton from "./ActionButton";
 
 export default function RequestRow({vacationRequest}: {vacationRequest: VacationRequest})
 {
+    const startDate = new Date(vacationRequest.startDate)
+    const endDate = new Date(vacationRequest.endDate)
+    const miliSecondsInDay = 1000 * 3600 * 24
+    const durationInDays = (endDate.getTime() - startDate.getTime()) / miliSecondsInDay
+
+    async function actionOnRequest(action: string) {
+        "use server";
+        
+    }
+
     return <tr>
-        <td>{convertIdToName(vacationRequest.employee_id)}</td>
-        <td>{vacationRequest.startDate}</td>
-        <td>{vacationRequest.endDate}</td>
-        <td><button>Approve</button></td>
+        <td datatype="employee-name">
+            <p>{vacationRequest.employee_name}</p>
+        </td>
+        <td datatype="start-date">
+            <p>{startDate.toDateString()}</p>
+        </td>
+        <td datatype="end-date">
+            <p>{endDate.toDateString()}</p>
+        </td>
+        <td datatype="duration">
+            <p>{durationInDays}</p>
+        </td>
+        <td datatype="action">
+            <ActionButton action="Approve" actionRequest={actionOnRequest}/>
+            <ActionButton action="Reject" actionRequest={actionOnRequest}/>
+        </td>
     </tr>
 }

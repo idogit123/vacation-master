@@ -123,24 +123,13 @@ export async function recruitEmployee(employee_id: string, manager_id: string)
 
 export async function getManagerRequests(manager_id: string)
 {
-    const session = await documentStore.openSession()
+    const session = documentStore.openSession()
     const manager = await session.load<Manager>(manager_id)
     if (manager == null)
         return false
 
-    let lazyRequests: Lazy<VacationRequest>[] = []
-    manager.pendingVacationRequests.map((request_id) => {
-        lazyRequests.push(
-            session.advanced.lazily.load<VacationRequest>(request_id) as Lazy<VacationRequest>
-        )
-    })
-
-    session.advanced.eagerly.executeAllPendingLazyOperations()
-
-    const requests: VacationRequest[] = await lazyRequests.map(async (lazyRequest) => {
-        return await lazyRequest.getValue()
-    })
-
+    const requests = await session.load<VacationRequest>(manager.pendingVacationRequests)
     session.saveChanges()
-    return requests
+
+    return manager.pendingVacationRequests.map((request_id) => requests[request_id])
 }

@@ -10,7 +10,6 @@ export default async function RequestsPage(
     })
 
     const requests: VacationRequest[] = await response.json()
-    console.log(requests)
 
     return <main id={styles.page}>
         <h2 id={styles.title}>Vacation Requests</h2>
@@ -20,10 +19,11 @@ export default async function RequestsPage(
                     <th>Employee</th>
                     <th>Start</th>
                     <th>End</th>
+                    <th>Duration</th>
                     <th>Action</th>
                 </tr>
                 {
-                    requests.map(request => <RequestRow vacationRequest={request}/>)
+                    requests.map(request => <RequestRow vacationRequest={request} key={request.id}/>)
                 }
             </tbody>
         </table>

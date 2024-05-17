@@ -86,18 +86,11 @@ export async function recruitEmployee(employee_id, manager_id) {
     return true;
 }
 export async function getManagerRequests(manager_id) {
-    const session = await documentStore.openSession();
+    const session = documentStore.openSession();
     const manager = await session.load(manager_id);
     if (manager == null)
         return false;
-    let lazyRequests = [];
-    manager.pendingVacationRequests.map((request_id) => {
-        lazyRequests.push(session.advanced.lazily.load(request_id));
-    });
-    session.advanced.eagerly.executeAllPendingLazyOperations();
-    const requests = await lazyRequests.map(async (lazyRequest) => {
-        return await lazyRequest.getValue();
-    });
+    const requests = await session.load(manager.pendingVacationRequests);
     session.saveChanges();
-    return requests;
+    return manager.pendingVacationRequests.map((request_id) => requests[request_id]);
 }
