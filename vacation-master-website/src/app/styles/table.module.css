@@ -1,6 +1,10 @@
+#page {
+    margin: 0 .5rem;
+}
+
 #title {
     margin: 0 0;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 }
 
 #table {
@@ -38,11 +42,6 @@
 #table tr:last-child {
     border-bottom: none;
     display: table-row;
-}
-
-#table tr:last-child button {
-    margin: 1rem;
-    width: auto;
 }
 
 #table tr td[datatype="status"] p::after {

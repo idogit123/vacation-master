@@ -1,0 +1,74 @@
+#nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    column-gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    align-items: center;
+}
+
+#nav div {
+    position: relative;
+    user-select: none;
+}
+
+#nav::before {
+    content: '';
+    width: .5rem;
+    height: .5rem;
+    display: inline-block;
+    border-radius: 50%;
+    background-color: black;
+}
+
+#nav[data-selected="employees"]::before {
+    background-color: skyblue;
+}
+
+#nav::after {
+    content: '';
+    width: .5rem;
+    height: .5rem;
+    display: inline-block;
+    border-radius: 50%;
+    background-color: black;
+}
+
+#nav[data-selected="requests"]::after {
+    background-color: skyblue;
+}
+
+#nav div::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 25%;
+    width: 50%;
+    height: 1px;
+    background-color: black;
+    transition: width 0.35s ease, left 0.35s ease;
+}
+
+#nav div:hover::after {
+    left: 5%;
+    width: 90%;
+}
+
+#nav div[data-status=true] {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+#nav div[data-status=true]::after {
+    background-color: skyblue;
+    height: 3px;
+    left: 5%;
+    width: 90%;
+    bottom: -5px;
+}
+
+#nav div[data-status=true]:hover:after {
+    left: 0;
+    width: 100%;
+}

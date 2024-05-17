@@ -40,9 +40,17 @@ export async function getUser(user) {
 }
 export async function postRequest(startDate, endDate, user_id) {
     const session = documentStore.openSession();
-    const request = new VacationRequest(user_id, startDate, endDate);
+    const user = await session.load(user_id);
+    if (user == null || user.manager == null)
+        return false;
+    const manager = await session.load(user.manager);
+    if (manager == null)
+        return false;
+    const request = new VacationRequest(user_id, user.name, startDate, endDate);
     await session.store(request);
+    manager.pendingVacationRequests.push(request.id);
     await session.saveChanges();
+    return true;
 }
 export async function getVacations(user_id) {
     const session = documentStore.openSession();
@@ -62,6 +70,7 @@ export async function getEmployees(manager_id) {
         .whereExists('manager')
         .whereEquals('manager', manager_id)
         .lazily();
+    session.saveChanges();
     return {
         newEmployees: await newEmployees.getValue(),
         managerEmployees: await managerEmployees.getValue()
@@ -75,4 +84,20 @@ export async function recruitEmployee(employee_id, manager_id) {
     employee.manager = manager_id;
     await session.saveChanges();
     return true;
+}
+export async function getManagerRequests(manager_id) {
+    const session = await documentStore.openSession();
+    const manager = await session.load(manager_id);
+    if (manager == null)
+        return false;
+    let lazyRequests = [];
+    manager.pendingVacationRequests.map((request_id) => {
+        lazyRequests.push(session.advanced.lazily.load(request_id));
+    });
+    session.advanced.eagerly.executeAllPendingLazyOperations();
+    const requests = await lazyRequests.map(async (lazyRequest) => {
+        return await lazyRequest.getValue();
+    });
+    session.saveChanges();
+    return requests;
 }

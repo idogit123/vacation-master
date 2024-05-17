@@ -22,7 +22,12 @@ async function submitLoginForm(formData: FormData)
     }
 
     const user = User.fromObject(responseJson.data)
-    redirect(`/${user.role}?user_id=${user.id}`)
+    if (user.role == 'manager')
+    {
+        redirect(`/manager/employees?user_id=${user.id}`)
+    }
+    else
+        redirect(`/employee?user_id=${user.id}`)
 }
 
 export default function LoginPage() {

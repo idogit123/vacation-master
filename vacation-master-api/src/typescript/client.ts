@@ -1,7 +1,8 @@
-import { DocumentStore, IAuthOptions, ObjectTypeDescriptor } from "ravendb";
+import { DocumentStore, IAuthOptions, Lazy, ObjectTypeDescriptor } from "ravendb";
 import { readFileSync } from 'fs'
 import { User, Employee, Manager } from "./types/User.js";
 import VacationRequest from "./types/Request.js";
+
 
 const authOptions: IAuthOptions = {
     certificate: readFileSync("./certificate/Client.pfx"),
@@ -56,9 +57,20 @@ export async function postRequest(startDate: Date, endDate: Date, user_id: strin
 {
     const session = documentStore.openSession()
 
-    const request = new VacationRequest(user_id, startDate, endDate)
+    const user = await session.load<Employee>(user_id)
+    if (user == null || user.manager == null)
+        return false
+    const manager = await session.load<Manager>(user.manager)
+    if (manager == null)
+        return false
+
+    const request = new VacationRequest(user_id, user.name, startDate, endDate)
     await session.store<VacationRequest>(request)
+
+    manager.pendingVacationRequests.push(request.id)
+
     await session.saveChanges()
+    return true
 }
 
 export async function getVacations(user_id: string)
@@ -87,6 +99,8 @@ export async function getEmployees(manager_id: string)
         .whereEquals('manager', manager_id)
         .lazily()
 
+    
+    session.saveChanges()
     return {
         newEmployees: await newEmployees.getValue(),
         managerEmployees: await managerEmployees.getValue()
@@ -105,4 +119,28 @@ export async function recruitEmployee(employee_id: string, manager_id: string)
     await session.saveChanges()
 
     return true
+}
+
+export async function getManagerRequests(manager_id: string)
+{
+    const session = await documentStore.openSession()
+    const manager = await session.load<Manager>(manager_id)
+    if (manager == null)
+        return false
+
+    let lazyRequests: Lazy<VacationRequest>[] = []
+    manager.pendingVacationRequests.map((request_id) => {
+        lazyRequests.push(
+            session.advanced.lazily.load<VacationRequest>(request_id) as Lazy<VacationRequest>
+        )
+    })
+
+    session.advanced.eagerly.executeAllPendingLazyOperations()
+
+    const requests: VacationRequest[] = await lazyRequests.map(async (lazyRequest) => {
+        return await lazyRequest.getValue()
+    })
+
+    session.saveChanges()
+    return requests
 }
