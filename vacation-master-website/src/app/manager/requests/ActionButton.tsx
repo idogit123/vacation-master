@@ -1,10 +1,10 @@
 "use client";
 
 export default function ActionButton(
-    {action, actionRequest}: {action: string, actionRequest: (action: string) => void}
+    {action, setStatus}: {action: string, setStatus: (action: string) => void}
 ) {
     return (
-    <button data-action={action} onClick={() => actionRequest(action.toLowerCase())}>
+    <button data-action={action} onClick={() => setStatus(action)}>
         {action}
     </button>
     )

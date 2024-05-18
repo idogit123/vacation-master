@@ -23,7 +23,9 @@ export default async function RequestsPage(
                     <th>Action</th>
                 </tr>
                 {
-                    requests.map(request => <RequestRow vacationRequest={request} key={request.id}/>)
+                    requests.map(request => {
+                        return <RequestRow vacationRequest={request} key={request.id}/>
+                    })
                 }
             </tbody>
         </table>

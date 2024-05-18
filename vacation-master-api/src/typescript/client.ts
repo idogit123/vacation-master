@@ -1,7 +1,7 @@
 import { DocumentStore, IAuthOptions, Lazy, ObjectTypeDescriptor } from "ravendb";
 import { readFileSync } from 'fs'
 import { User, Employee, Manager } from "./types/User.js";
-import VacationRequest from "./types/Request.js";
+import { RequestStatus, VacationRequest } from "./types/Request.js";
 
 
 const authOptions: IAuthOptions = {
@@ -60,15 +60,17 @@ export async function postRequest(startDate: Date, endDate: Date, user_id: strin
     const user = await session.load<Employee>(user_id)
     if (user == null || user.manager == null)
         return false
-    const manager = await session.load<Manager>(user.manager)
-    if (manager == null)
-        return false
 
-    const request = new VacationRequest(user_id, user.name, startDate, endDate)
+    const request: VacationRequest = {
+        employee_id: user_id, 
+        employee_name: user.name, 
+        manager_id: user.manager,
+        startDate: startDate, 
+        endDate: endDate,
+        status: 'pending',
+        id: ''
+    }
     await session.store<VacationRequest>(request)
-
-    manager.pendingVacationRequests.push(request.id)
-
     await session.saveChanges()
     return true
 }
@@ -124,12 +126,26 @@ export async function recruitEmployee(employee_id: string, manager_id: string)
 export async function getManagerRequests(manager_id: string)
 {
     const session = documentStore.openSession()
-    const manager = await session.load<Manager>(manager_id)
-    if (manager == null)
-        return false
 
-    const requests = await session.load<VacationRequest>(manager.pendingVacationRequests)
+    const requests = await session.query<VacationRequest>({collection: 'VacationRequests'})
+        .whereEquals('manager_id', manager_id)
+        .whereEquals('status', 'pending')
+        .all()
     session.saveChanges()
 
-    return manager.pendingVacationRequests.map((request_id) => requests[request_id])
+    return requests
+}
+
+export async function setRequestStatus(request_id: string, status: RequestStatus)
+{
+    const session = documentStore.openSession()
+
+    const request = await session.load<VacationRequest>(request_id)
+    if (request == null)
+        return false
+
+    request.status = status
+    session.saveChanges()
+
+    return true
 }
