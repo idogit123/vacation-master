@@ -1,6 +1,6 @@
 import express from 'express';
 import { User } from './types/User.js';
-import { postRequest, storeUser, getUser, getVacations, getEmployees, recruitEmployee, getManagerRequests } from './client.js';
+import { postRequest, storeUser, getUser, getVacations, getEmployees, recruitEmployee, getManagerRequests, setRequestStatus } from './client.js';
 const PORT = 8080;
 const app = express();
 app.use(express.json());
@@ -51,5 +51,12 @@ app.get('/requests/:manager_id', async (req, res) => {
         res.status(200).send(requests);
     else
         res.status(404).send({ error: 'user not found' });
+});
+app.put('/status/:request_id', async (req, res) => {
+    console.log('set status', req.query.status);
+    if (await setRequestStatus(req.params.request_id, req.query.status))
+        res.status(200).send();
+    else
+        res.status(404).send('Request not found');
 });
 app.listen(PORT, () => { console.log(`listening on port: ${PORT}`); });

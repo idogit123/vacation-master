@@ -11,9 +11,11 @@ export default function RequestRow({vacationRequest}: {vacationRequest: Vacation
     async function setRequestStatus(action: string) {
         "use server";
         const status = action == 'Approve' ? 'approved' : 'rejected'
+        console.log('status', status)
         await fetch(`http://localhost:8080/status/${vacationRequest.id}?status=${status}`,
         {
-            "method": "PATCH",
+            "method": "PUT",
+            "cache": "no-cache"
         })
     }
 
@@ -28,7 +30,7 @@ export default function RequestRow({vacationRequest}: {vacationRequest: Vacation
             <p>{endDate.toDateString()}</p>
         </td>
         <td datatype="duration">
-            <p>{durationInDays}</p>
+            <p>{durationInDays} {durationInDays > 1 ? 'Days' : 'Day'}</p>
         </td>
         <td datatype="action">
             <ActionButton action="Approve" setStatus={setRequestStatus}/>

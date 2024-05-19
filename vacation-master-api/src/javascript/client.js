@@ -1,7 +1,7 @@
 import { DocumentStore } from "ravendb";
 import { readFileSync } from 'fs';
 import { User } from "./types/User.js";
-import VacationRequest from "./types/Request.js";
+import { VacationRequest } from "./types/Request.js";
 const authOptions = {
     certificate: readFileSync("./certificate/Client.pfx"),
     type: "pfx",
@@ -43,12 +43,10 @@ export async function postRequest(startDate, endDate, user_id) {
     const user = await session.load(user_id);
     if (user == null || user.manager == null)
         return false;
-    const manager = await session.load(user.manager);
-    if (manager == null)
-        return false;
-    const request = new VacationRequest(user_id, user.name, startDate, endDate);
-    await session.store(request);
-    manager.pendingVacationRequests.push(request.id);
+    const request = new VacationRequest(user.manager, user_id, user.name, startDate, endDate, 'pending');
+    await session.store(request, undefined, {
+        documentType: VacationRequest
+    });
     await session.saveChanges();
     return true;
 }
@@ -87,10 +85,20 @@ export async function recruitEmployee(employee_id, manager_id) {
 }
 export async function getManagerRequests(manager_id) {
     const session = documentStore.openSession();
-    const manager = await session.load(manager_id);
-    if (manager == null)
-        return false;
-    const requests = await session.load(manager.pendingVacationRequests);
+    const requests = await session.query({ collection: 'VacationRequests' })
+        .whereEquals('manager_id', manager_id)
+        .whereEquals('status', 'pending')
+        .all();
     session.saveChanges();
-    return manager.pendingVacationRequests.map((request_id) => requests[request_id]);
+    return requests;
+}
+export async function setRequestStatus(request_id, status) {
+    const session = documentStore.openSession();
+    const request = await session.load(request_id);
+    if (request == null)
+        return false;
+    request.status = status;
+    console.log(request.status);
+    session.saveChanges();
+    return true;
 }

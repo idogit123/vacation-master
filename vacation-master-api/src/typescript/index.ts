@@ -89,7 +89,8 @@ app.get('/requests/:manager_id', async (req, res) => {
         res.status(404).send({ error: 'user not found' })
 })
 
-app.patch('/status/:request_id', async (req, res) => {
+app.put('/status/:request_id', async (req, res) => {
+    console.log('set status', req.query.status)
     if (await setRequestStatus(
         req.params.request_id, 
         req.query.status as RequestStatus

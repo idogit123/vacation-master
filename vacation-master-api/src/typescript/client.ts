@@ -1,4 +1,4 @@
-import { DocumentStore, IAuthOptions, Lazy, ObjectTypeDescriptor } from "ravendb";
+import { DocumentStore, IAuthOptions } from "ravendb";
 import { readFileSync } from 'fs'
 import { User, Employee, Manager } from "./types/User.js";
 import { RequestStatus, VacationRequest } from "./types/Request.js";
@@ -61,16 +61,17 @@ export async function postRequest(startDate: Date, endDate: Date, user_id: strin
     if (user == null || user.manager == null)
         return false
 
-    const request: VacationRequest = {
-        employee_id: user_id, 
-        employee_name: user.name, 
-        manager_id: user.manager,
-        startDate: startDate, 
-        endDate: endDate,
-        status: 'pending',
-        id: ''
-    }
-    await session.store<VacationRequest>(request)
+    const request: VacationRequest = new VacationRequest(
+        user.manager,
+        user_id, 
+        user.name, 
+        startDate, 
+        endDate,
+        'pending'
+    )
+    await session.store<VacationRequest>(request, undefined, {
+        documentType: VacationRequest
+    })
     await session.saveChanges()
     return true
 }
@@ -145,6 +146,7 @@ export async function setRequestStatus(request_id: string, status: RequestStatus
         return false
 
     request.status = status
+    console.log(request.status)
     session.saveChanges()
 
     return true

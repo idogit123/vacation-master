@@ -1,4 +1,3 @@
-import VacationRequest from "./Request"
 
 type Role = 'employee' | 'manager'
 
