@@ -1,11 +1,12 @@
 "use client";
+import setRequestStatus from "./setRequestStatus";
 
 export default function ActionButton(
-    {action, setStatus}: {action: string, setStatus: (action: string) => void}
+    {action, requestId}: {action: string, requestId: string}
 ) {
-    return <button data-action={action} onClick={() => {
+    return <button data-action={action} onClick={async () => {
         console.log('action', action)
-        setStatus(action)
+        await setRequestStatus(action, requestId)
     }}>
         {action}
     </button>

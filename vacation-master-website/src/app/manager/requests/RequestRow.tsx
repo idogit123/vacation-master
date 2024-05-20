@@ -8,17 +8,6 @@ export default function RequestRow({vacationRequest}: {vacationRequest: Vacation
     const miliSecondsInDay = 1000 * 3600 * 24
     const durationInDays = (endDate.getTime() - startDate.getTime()) / miliSecondsInDay
 
-    async function setRequestStatus(action: string) {
-        "use server";
-        const status = action == 'Approve' ? 'approved' : 'rejected'
-        console.log('status', status)
-        await fetch(`http://localhost:8080/status/${vacationRequest.id}?status=${status}`,
-        {
-            "method": "PUT",
-            "cache": "no-cache"
-        })
-    }
-
     return <tr>
         <td datatype="employee-name">
             <p>{vacationRequest.employee_name}</p>
@@ -33,8 +22,8 @@ export default function RequestRow({vacationRequest}: {vacationRequest: Vacation
             <p>{durationInDays} {durationInDays > 1 ? 'Days' : 'Day'}</p>
         </td>
         <td datatype="action">
-            <ActionButton action="Approve" setStatus={setRequestStatus}/>
-            <ActionButton action="Reject" setStatus={setRequestStatus}/>
+            <ActionButton action="Approve" requestId={vacationRequest.id}/>
+            <ActionButton action="Reject" requestId={vacationRequest.id}/>
         </td>
     </tr>
 }

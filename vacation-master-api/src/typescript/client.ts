@@ -15,24 +15,30 @@ documentStore.conventions.registerEntityType(User)
 documentStore.initialize();
 console.log("created a document store")
 
-export async function storeUser(user: Manager | Employee) {
+export async function storeUser(newUser: Manager | Employee) {
     const session = documentStore.openSession()
 
     const queryForExistingUser = session.query<User>({collection: 'Users'})
-        .whereEquals('name', user.name)
+        .whereEquals('name', newUser.name)
 
     const existingUser = await queryForExistingUser.firstOrNull()
 
     if (existingUser == null) 
     {
-        const id = user.name.replaceAll(' ', '-', ).toLowerCase()
-        await session.store<User>(user, id, User)
+        const id = newUser.name.replaceAll(' ', '-', ).toLowerCase()
+        await session.store<User>(newUser, id, User)
         await session.saveChanges()
-        return user
+        return {
+            success: true,
+            user: newUser
+        }
     }
 
     await session.saveChanges()
-    return existingUser
+    return {
+        success: true,
+        user: existingUser
+    }
 }
 
 export async function getUser(user: {name: string, password: string})
@@ -141,9 +147,14 @@ export async function setRequestStatus(request_id: string, status: RequestStatus
 {
     const session = documentStore.openSession()
 
+    console.log(request_id)
     const request = await session.load<VacationRequest>(request_id)
     if (request == null)
+    {
+        console.log('request not found')
         return false
+    }
+        
 
     request.status = status
     console.log(request.status)

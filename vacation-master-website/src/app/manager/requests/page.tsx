@@ -22,6 +22,13 @@ export default async function RequestsPage(
                     <th>Duration</th>
                     <th>Action</th>
                 </tr>
+                {requests.length == 0 && 
+                    <tr>
+                        <td>
+                            <p>No pending requests...</p>
+                        </td>
+                    </tr>
+                }
                 {
                     requests.map(request => {
                         return <RequestRow vacationRequest={request} key={request.id}/>

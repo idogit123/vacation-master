@@ -11,19 +11,25 @@ const documentStore = new DocumentStore("https://a.free.idodb.ravendb.cloud", "V
 documentStore.conventions.registerEntityType(User);
 documentStore.initialize();
 console.log("created a document store");
-export async function storeUser(user) {
+export async function storeUser(newUser) {
     const session = documentStore.openSession();
     const queryForExistingUser = session.query({ collection: 'Users' })
-        .whereEquals('name', user.name);
+        .whereEquals('name', newUser.name);
     const existingUser = await queryForExistingUser.firstOrNull();
     if (existingUser == null) {
-        const id = user.name.replaceAll(' ', '-').toLowerCase();
-        await session.store(user, id, User);
+        const id = newUser.name.replaceAll(' ', '-').toLowerCase();
+        await session.store(newUser, id, User);
         await session.saveChanges();
-        return user;
+        return {
+            success: true,
+            user: newUser
+        };
     }
     await session.saveChanges();
-    return existingUser;
+    return {
+        success: true,
+        user: existingUser
+    };
 }
 export async function getUser(user) {
     const session = documentStore.openSession();
@@ -94,9 +100,12 @@ export async function getManagerRequests(manager_id) {
 }
 export async function setRequestStatus(request_id, status) {
     const session = documentStore.openSession();
+    console.log(request_id);
     const request = await session.load(request_id);
-    if (request == null)
+    if (request == null) {
+        console.log('request not found');
         return false;
+    }
     request.status = status;
     console.log(request.status);
     session.saveChanges();

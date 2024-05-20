@@ -52,9 +52,10 @@ app.get('/requests/:manager_id', async (req, res) => {
     else
         res.status(404).send({ error: 'user not found' });
 });
-app.put('/status/:request_id', async (req, res) => {
-    console.log('set status', req.query.status);
-    if (await setRequestStatus(req.params.request_id, req.query.status))
+app.patch('/status/:request_id', async (req, res) => {
+    console.log('set status');
+    const isStatusSet = await setRequestStatus('VacationRequests/' + req.params.request_id, req.query.status);
+    if (isStatusSet)
         res.status(200).send();
     else
         res.status(404).send('Request not found');
