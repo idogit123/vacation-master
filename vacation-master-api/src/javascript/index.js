@@ -9,7 +9,7 @@ app.post('/signup', async ({ body: { name, password, role } }, res) => {
     console.log(`signup request from ${user.name}`);
     const logedUser = await storeUser(user);
     res.status(200).send({
-        data: logedUser
+        user: logedUser
     });
 });
 app.get('/login/:name', async (req, res) => {

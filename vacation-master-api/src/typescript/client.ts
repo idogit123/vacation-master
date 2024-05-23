@@ -28,17 +28,11 @@ export async function storeUser(newUser: Manager | Employee) {
         const id = newUser.name.replaceAll(' ', '-', ).toLowerCase()
         await session.store<User>(newUser, id, User)
         await session.saveChanges()
-        return {
-            success: true,
-            user: newUser
-        }
+        return newUser
     }
 
     await session.saveChanges()
-    return {
-        success: true,
-        user: existingUser
-    }
+    return existingUser
 }
 
 export async function getUser(user: {name: string, password: string})
@@ -53,7 +47,7 @@ export async function getUser(user: {name: string, password: string})
         return { error: 'User not found' }
 
     else if (logedUser.password == user.password)
-        return { data: logedUser }
+        return { user: logedUser }
 
     else 
         return { error: 'Password incorrect' }

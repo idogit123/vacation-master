@@ -20,13 +20,13 @@ async function submitSignupForm(formData: FormData)
         }
     )
 
-    const user = User.fromObject((await response.json()).data)
-    if (user.role == 'manager')
+    const { role, id } = (await response.json()).user
+    if (role == 'manager')
     {
-        redirect(`/manager/employees?user_id=${user.id}`)
+        redirect(`/manager/employees?user_id=${id}`)
     }
     else
-        redirect(`/employee?user_id=${user.id}`)
+        redirect(`/employee?user_id=${id}`)
 }
 
 export default function SignupPage() {

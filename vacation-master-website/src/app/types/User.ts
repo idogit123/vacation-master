@@ -21,19 +21,6 @@ export default class User {
         this.id = id
     }
 
-    static fromObject(object: UserObject) {
-        const name = object.name
-        const password = object.password
-        const role: Role = object.role
-        const id = object?.id
-
-        console.log(object)
-        if (name == null || name.length == 0 || password == null || password.length == 0 || role == null)
-            throw TypeError('Name, password or role are invalid.')
-
-        return new User(name, password, role, id)
-    }
-
     getRole(): Employee | Manager {
         if (this.role == "employee")
             return new Employee(this.name, this.password, this.id)

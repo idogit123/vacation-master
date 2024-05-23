@@ -20,16 +20,10 @@ export async function storeUser(newUser) {
         const id = newUser.name.replaceAll(' ', '-').toLowerCase();
         await session.store(newUser, id, User);
         await session.saveChanges();
-        return {
-            success: true,
-            user: newUser
-        };
+        return newUser;
     }
     await session.saveChanges();
-    return {
-        success: true,
-        user: existingUser
-    };
+    return existingUser;
 }
 export async function getUser(user) {
     const session = documentStore.openSession();
@@ -40,7 +34,7 @@ export async function getUser(user) {
     if (logedUser == null)
         return { error: 'User not found' };
     else if (logedUser.password == user.password)
-        return { data: logedUser };
+        return { user: logedUser };
     else
         return { error: 'Password incorrect' };
 }

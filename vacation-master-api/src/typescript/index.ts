@@ -18,7 +18,7 @@ app.post('/signup', async ({ body: {name, password, role} }, res) => {
     const logedUser = await storeUser(user)
 
     res.status(200).send({
-        data: logedUser
+        user: logedUser
     })
 })
 
@@ -39,7 +39,7 @@ app.get('/login/:name', async (req, res) => {
     
     else 
         res.status(200).send(
-            logedUser as { data: User }
+            logedUser as { user: User }
         )
 })
 
