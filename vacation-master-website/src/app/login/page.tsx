@@ -18,7 +18,7 @@ async function submitLoginForm(formData: FormData)
     if (responseJson.error)
     {
         console.log(responseJson.error)
-        return
+        redirect(`/login?error=${responseJson.error}`)
     }
 
     const {role, id} = responseJson.user
@@ -30,7 +30,9 @@ async function submitLoginForm(formData: FormData)
         redirect(`/employee?user_id=${id}`)
 }
 
-export default function LoginPage() {
+export default function LoginPage(
+    { searchParams: { error } }: { searchParams: { error: string | null } }
+) {
     return <main id={styles.page}>
         <div id={styles.container}>
             <h2 id={styles.title}>Login</h2>
@@ -43,6 +45,13 @@ export default function LoginPage() {
                     <label>
                         <p className={styles.p}>Password:</p>
                         <input className={styles.input} name="password" type="password" required/>
+                    </label>
+                    <label>
+                        { 
+                            error ? <p className={styles.error}>
+                                <span> Error:</span> {error}
+                            </p> : "" 
+                        }
                     </label>
                 </div>
                 <SubmitFormButton />

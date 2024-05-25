@@ -53,3 +53,15 @@
     width: 100%;
     box-sizing: border-box;
 }
+
+.error {
+    margin: 0;
+    background-color: hsl(0, 100%, 40%);
+    color: white;
+    border-radius: .3rem;
+    padding: .3rem;
+}
+
+.error span {
+    font-weight: bold;
+}
