@@ -48,25 +48,16 @@
     margin-left: .5rem;
 }
 
-#table tr td[datatype="status"] p::after {
-    content: '';
-    width: .5rem;
-    height: .5rem;
-    border: 1px solid white;
-    display: inline-block;
-    border-radius: 50%;
+#table tr td[datatype="status"][data-status="pending"] p::after {
+    content: '🟡';
 }
 
-#table tr[data-status="pending"] td[datatype="status"] p::after {
-    background-color: yellow;
+#table tr td[datatype="status"][data-status="approved"] p::after {
+    content: '🟢';
 }
 
-#table tr[data-status="approved"] td[datatype="status"] p::after {
-    background-color: green;
-}
-
-#table tr[data-status="rejected"] td[datatype="status"] p::after {
-    background-color: red;
+#table tr td[datatype="status"][data-status="rejected"] p::after {
+    content: '🔴';
 }
 
 #table tr td[datatype="start-date"] p::after,

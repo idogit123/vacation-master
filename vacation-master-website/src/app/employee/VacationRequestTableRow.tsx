@@ -10,7 +10,7 @@ export default function VacationRequestTableRow(
     const miliSecondsInDay = 1000 * 3600 * 24
     const durationInDays = (endDate.getTime() - startDate.getTime()) / miliSecondsInDay
 
-    return <tr data-status={vacationRequest.status}>
+    return <tr>
         <td datatype='start-date'>
             <p>{startDate.toDateString()}</p>
         </td>
@@ -20,7 +20,7 @@ export default function VacationRequestTableRow(
         <td datatype='duration'>
             <p>{durationInDays} Days</p>
         </td>
-        <td datatype='status'>
+        <td datatype='status' data-status={vacationRequest.status}>
             <p>{vacationRequest.status}</p>
         </td>
     </tr>
