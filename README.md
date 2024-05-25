@@ -28,8 +28,6 @@ The employees page has two lists:
 1. New employees - with a button next to each that recruits that employee
 2. Your employees - a list of your employees
 
-![employees page](/assets/screenshots/image.png)
-
 ### Manager - Requests page
 The requests page has a table of all the pending requests.
 The table shows:
@@ -50,7 +48,7 @@ The table shows:
 
 ### Employee - New request page
 In the new request page there is a form to send a new request.
-> [!IMPORTANT] 
+> [!WARNING] 
 > if the user is not recruited by a manager, the request will not be sent
 > and no error message will be displayed to the user!
 
