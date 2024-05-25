@@ -26,4 +26,27 @@ The employees page has two lists:
 1. New employees - with a button next to each that recruits that employee
 2. Your employees - a list of your employees
 
+### Manager - Requests page
+The requests page has a table of all the pending requests.
+The table shows:
+- Name of employee who sent the request
+- Start date of vacation
+- End date of vacation
+- Duration of vacation
+- Buttons to approve or reject the request
+
+### Employee page
+If you login as an employee you have access to the employee pages.
+In the employee page there is a table with all the requests you made.
+The table shows:
+- Start date of vacation
+- End date of vacation
+- Duration of vacation
+- Status of request: `Pending`, `Approved` or `Rejected`
+
+### Employee - New request page
+In the new request page there is a form to send a new request.
+**Importemt: if the user is not recruited by a manager the request will not be sent**
+**but no error message will be displayed to the user**
+
 ## How to run project
