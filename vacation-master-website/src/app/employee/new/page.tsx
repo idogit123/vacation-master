@@ -1,4 +1,5 @@
 import styles from '@/app/styles/form.module.css'
+import SubmitFormButton from '@/app/submitFormButton';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -37,14 +38,14 @@ export default function NewRequestPage(
                 <div id={styles.labelContainer}>
                     <label>
                         <p className={styles.p}>Start Date:</p>
-                        <input className={styles.input} name="startDate" type="date" />
+                        <input className={styles.input} name="startDate" type="date" required />
                     </label>
                     <label>
                         <p className={styles.p}>End Date:</p>
-                        <input className={styles.input} name="endDate" type="date" />
+                        <input className={styles.input} name="endDate" type="date" required />
                     </label>
                 </div>
-                <button id={styles.button}>Send Request</button>
+                <SubmitFormButton />
             </form>
         </div>
     </main>

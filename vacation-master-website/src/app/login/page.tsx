@@ -1,6 +1,6 @@
 import styles from '../styles/form.module.css'
-import User from '../types/User';
 import { redirect } from 'next/navigation';
+import SubmitFormButton from '../submitFormButton';
 
 async function submitLoginForm(formData: FormData)
 {
@@ -38,14 +38,14 @@ export default function LoginPage() {
                 <div id={styles.labelContainer}>
                     <label>
                         <p className={styles.p}>Name:</p>
-                        <input className={styles.input} name="name" type="text" />
+                        <input className={styles.input} name="name" type="text" required />
                     </label>
                     <label>
                         <p className={styles.p}>Password:</p>
-                        <input className={styles.input} name="password" type="password" />
+                        <input className={styles.input} name="password" type="password" required/>
                     </label>
                 </div>
-                <button id={styles.button}>Submit</button>
+                <SubmitFormButton />
             </form>
         </div>
     </main>
