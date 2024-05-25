@@ -17,19 +17,15 @@ export class User {
 }
 export class Employee extends User {
     manager;
-    vacationRequests;
     constructor(user) {
         super(user.name, user.password, user.role, user.id);
         this.manager = null;
-        this.vacationRequests = [];
     }
 }
 export class Manager extends User {
     employees;
-    pendingVacationRequests;
     constructor(user) {
         super(user.name, user.password, user.role, user.id);
         this.employees = [];
-        this.pendingVacationRequests = [];
     }
 }

@@ -45,13 +45,20 @@ app.get('/login/:name', async (req, res) => {
 
 app.post('/new', async (req, res) => {
     const { startDate, endDate, user_id } = req.body
-    await postRequest(
+    if (await postRequest(
         new Date(startDate),
         new Date(endDate),
         user_id
-    )
-
-    res.status(200).send({ success: true })
+    ))
+    {
+        console.log('succesfuly uploaded new request')
+        res.status(200).send({ success: true })
+    }
+    else 
+    {
+        console.log('error posting request')
+        res.status(404).send({ success: false })
+    }
 })
 
 app.get('/vacations/:id', async (req, res) => {

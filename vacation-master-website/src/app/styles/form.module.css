@@ -17,6 +17,12 @@
 #button {
     height: 3rem;
     border-radius: .5rem;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+#button:hover {
+    transform: translateY(-.25rem);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 #title {

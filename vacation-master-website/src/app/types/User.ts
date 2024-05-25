@@ -31,24 +31,20 @@ export default class User {
 
 export class Employee extends User {
     manager: string | null;
-    vacationRequest: VacationRequest[];
 
     constructor(name: string, password: string, id: string) {
         super(name, password, 'employee', id);
 
         this.manager = null;
-        this.vacationRequest = [];
     }
 }
 
 export class Manager extends User {
     employees: Employee[];
-    pendingVacationRequests: VacationRequest[];
 
     constructor(name: string, password: string, id: string) {
         super(name, password, 'manager', id);
 
         this.employees = [];
-        this.pendingVacationRequests = [];
     }
 }

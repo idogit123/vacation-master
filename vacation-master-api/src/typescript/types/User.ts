@@ -27,23 +27,19 @@ export class User  {
 
 export class Employee extends User {
     manager: string | null
-    vacationRequests: string[]
 
     constructor(user: User) {
         super(user.name, user.password, user.role, user.id)
         this.manager = null;
-        this.vacationRequests = []
     }
 }
 
 export class Manager extends User {
     employees: string[]
-    pendingVacationRequests: string[]
 
     constructor(user: User)
     {
         super(user.name, user.password, user.role, user.id)
         this.employees = []
-        this.pendingVacationRequests = []
     }
 }
