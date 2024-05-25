@@ -20,7 +20,6 @@ export async function storeUser(newUser: Manager | Employee) {
 
     const existingUser = await session.query<User>({collection: 'Users'})
         .whereEquals('name', newUser.name)
-        .whereEquals('password', newUser.password)
         .firstOrNull()
 
     if (existingUser == null) 
@@ -31,8 +30,12 @@ export async function storeUser(newUser: Manager | Employee) {
         return newUser
     }
 
-    await session.saveChanges()
-    return existingUser
+    if (existingUser.password == newUser.password) {
+        await session.saveChanges()
+        return existingUser
+    }
+    
+    return false
 }
 
 export async function getUser(user: {name: string, password: string})

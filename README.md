@@ -18,6 +18,12 @@ Doesnt show if password incorrect or if user doesnt exist, it will just not logi
 ### Signup page
 Enter name, password and role to signup.
 If a user with the same name and password already exists it will login to that user.
-☀️
+Also doesnt show if there are errors in signup.
+
+### Manager - Employees page
+If you login as a manager you have access to the manager pages.
+The employees page has two lists:
+1. New employees - with a button next to each that recruits that employee
+2. Your employees - a list of your employees
 
 ## How to run project

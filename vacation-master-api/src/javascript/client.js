@@ -15,7 +15,6 @@ export async function storeUser(newUser) {
     const session = documentStore.openSession();
     const existingUser = await session.query({ collection: 'Users' })
         .whereEquals('name', newUser.name)
-        .whereEquals('password', newUser.password)
         .firstOrNull();
     if (existingUser == null) {
         const id = newUser.name.replaceAll(' ', '-').toLowerCase();
@@ -23,8 +22,11 @@ export async function storeUser(newUser) {
         await session.saveChanges();
         return newUser;
     }
-    await session.saveChanges();
-    return existingUser;
+    if (existingUser.password == newUser.password) {
+        await session.saveChanges();
+        return existingUser;
+    }
+    return false;
 }
 export async function getUser(user) {
     const session = documentStore.openSession();
