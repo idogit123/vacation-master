@@ -16,7 +16,7 @@ export class User  {
         this.id = id
     }
 
-    getRole()
+    getRole(): Employee | Manager
     {
         if (this.role == 'employee')
             return new Employee(this)
@@ -35,11 +35,9 @@ export class Employee extends User {
 }
 
 export class Manager extends User {
-    employees: string[]
 
     constructor(user: User)
     {
         super(user.name, user.password, user.role, user.id)
-        this.employees = []
     }
 }

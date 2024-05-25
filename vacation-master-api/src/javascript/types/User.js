@@ -23,9 +23,7 @@ export class Employee extends User {
     }
 }
 export class Manager extends User {
-    employees;
     constructor(user) {
         super(user.name, user.password, user.role, user.id);
-        this.employees = [];
     }
 }

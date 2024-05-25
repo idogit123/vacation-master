@@ -42,11 +42,35 @@ The table shows:
 - Start date of vacation
 - End date of vacation
 - Duration of vacation
-- Status of request: `Pending`, `Approved` or `Rejected`
+- Status of request: `Pending 🟡`, `Approved 🟢` or `Rejected 🔴`
 
 ### Employee - New request page
 In the new request page there is a form to send a new request.
-**Importemt: if the user is not recruited by a manager the request will not be sent**
-**but no error message will be displayed to the user**
+**Importemt: if the user is not recruited by a manager, the request will not be sent**
+**and no error message will be displayed to the user!**
+
+## Database layout
+The database has 2 collections:
+### The users collection
+The users collection stores all the managers and employees.
+User properties:
+- Name
+- Password
+- Role
+- Id
+Employee extends User:
+- Manager - The manager id
+- Role = Employee
+Manager extends User:
+- Role = Manager
+
+### The requests collection
+Request properties:
+- Employee id
+- Manager id
+- Start date
+- End date
+- Status
+- Id
 
 ## How to run project
