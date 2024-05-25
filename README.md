@@ -13,12 +13,14 @@
 ## Pages
 ### Login page
 Enter name and password to login. 
-Doesnt show if password incorrect or if user doesnt exist, it will just not login.
+> [!Warning]
+> Doesnt show if password incorrect or if user doesnt exist, it will just not login.
 
 ### Signup page
 Enter name, password and role to signup.
 If a user with the same name and password already exists it will login to that user.
-Also doesnt show if there are errors in signup.
+> [!Warning]
+> Also doesnt show if there are errors in signup.
 
 ### Manager - Employees page
 If you login as a manager you have access to the manager pages.
@@ -48,8 +50,9 @@ The table shows:
 
 ### Employee - New request page
 In the new request page there is a form to send a new request.
-**Importemt: if the user is not recruited by a manager, the request will not be sent**
-**and no error message will be displayed to the user!**
+> [!Importemt] 
+> if the user is not recruited by a manager, the request will not be sent
+> and no error message will be displayed to the user!
 
 ## Database layout
 The database has 2 collections:
