@@ -58,9 +58,11 @@ User properties:
 - Password
 - Role
 - Id
+
 Employee extends User:
 - Manager - The manager id
 - Role = Employee
+
 Manager extends User:
 - Role = Manager
 
