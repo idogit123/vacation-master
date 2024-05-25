@@ -25,7 +25,8 @@ If you login as a manager you have access to the manager pages.
 The employees page has two lists:
 1. New employees - with a button next to each that recruits that employee
 2. Your employees - a list of your employees
-![alt text](image.png)
+
+![employees page](/assets/screenshots/image.png)
 
 ### Manager - Requests page
 The requests page has a table of all the pending requests.
