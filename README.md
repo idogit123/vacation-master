@@ -75,4 +75,14 @@ Request properties:
 - Status
 - Id
 
-## How to run project
+## How to run the project
+1. Run the api
+  1. In a terminal type: `cd vacation-master-api`
+  2. Type: `tsc-watch --onSuccess "node src/javascript/index.js"`
+  3. Wait for the terminal to log: "listening on port: 8080"
+2. Run the website
+  1. In a new terminal type: `cd vacation-master-website`
+  2. Type: `npm run dev`
+3. Use the website
+  1. Go to the browser
+  2. In the search bar enter: `http://localhost:3000`
