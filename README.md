@@ -18,6 +18,6 @@ Doesnt show if password incorrect or if user doesnt exist, it will just not logi
 ### Signup page
 Enter name, password and role to signup.
 If a user with the same name and password already exists it will login to that user.
-
+☀️
 
 ## How to run project
