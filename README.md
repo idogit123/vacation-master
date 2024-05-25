@@ -50,7 +50,7 @@ The table shows:
 
 ### Employee - New request page
 In the new request page there is a form to send a new request.
-> [!Importemt] 
+> [!IMPORTANT] 
 > if the user is not recruited by a manager, the request will not be sent
 > and no error message will be displayed to the user!
 
