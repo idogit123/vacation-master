@@ -13,9 +13,10 @@ documentStore.initialize();
 console.log("created a document store");
 export async function storeUser(newUser) {
     const session = documentStore.openSession();
-    const queryForExistingUser = session.query({ collection: 'Users' })
-        .whereEquals('name', newUser.name);
-    const existingUser = await queryForExistingUser.firstOrNull();
+    const existingUser = await session.query({ collection: 'Users' })
+        .whereEquals('name', newUser.name)
+        .whereEquals('password', newUser.password)
+        .firstOrNull();
     if (existingUser == null) {
         const id = newUser.name.replaceAll(' ', '-').toLowerCase();
         await session.store(newUser, id, User);

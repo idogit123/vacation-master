@@ -18,10 +18,10 @@ console.log("created a document store")
 export async function storeUser(newUser: Manager | Employee) {
     const session = documentStore.openSession()
 
-    const queryForExistingUser = session.query<User>({collection: 'Users'})
+    const existingUser = await session.query<User>({collection: 'Users'})
         .whereEquals('name', newUser.name)
-
-    const existingUser = await queryForExistingUser.firstOrNull()
+        .whereEquals('password', newUser.password)
+        .firstOrNull()
 
     if (existingUser == null) 
     {
