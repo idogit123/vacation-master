@@ -4,12 +4,17 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export default function NewRequestPage(
-    { searchParams: { user_id } }: { searchParams: { user_id: string } }
+    { searchParams: { user_id, error } }: { searchParams: { user_id: string, error: string } }
 ) {
-
     async function postNewRequest(formData: FormData) {
         "use server";
-    
+        
+        const startDate = new Date(formData.get("startDate") as string)
+        const endDate = new Date(formData.get("endDate") as string)
+
+        if (startDate.getTime() > endDate.getTime())
+            redirect(`/employee/new?user_id=${user_id}&error=${'Start date must be before end date.'}`)
+
         const response = await fetch(
             'http://localhost:8080/new',
             {
@@ -18,8 +23,8 @@ export default function NewRequestPage(
                     "Content-Type": "application/json"
                 },
                 "body": JSON.stringify({
-                    startDate: formData.get("startDate"),
-                    endDate: formData.get('endDate'),
+                    startDate: startDate,
+                    endDate: endDate,
                     user_id: user_id
                 })
             }
@@ -29,6 +34,8 @@ export default function NewRequestPage(
             revalidatePath(`/employee?user_id=${user_id}`)
             redirect(`/employee?user_id=${user_id}`)
         }
+        else 
+            redirect(`/employee/new?user_id=${user_id}&error=${'You have no manager to send requests to.'}`)
     }
 
     return <main id={styles.page}>
@@ -43,6 +50,13 @@ export default function NewRequestPage(
                     <label>
                         <p className={styles.p}>End Date:</p>
                         <input className={styles.input} name="endDate" type="date" required />
+                    </label>
+                    <label>
+                        { 
+                            error ? <p className={styles.error}>
+                                <span>Error:</span> {error}
+                            </p> : "" 
+                        }
                     </label>
                 </div>
                 <SubmitFormButton />

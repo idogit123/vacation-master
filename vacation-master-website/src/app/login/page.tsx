@@ -49,7 +49,7 @@ export default function LoginPage(
                     <label>
                         { 
                             error ? <p className={styles.error}>
-                                <span> Error:</span> {error}
+                                <span>Error:</span> {error}
                             </p> : "" 
                         }
                     </label>
