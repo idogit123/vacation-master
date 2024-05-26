@@ -20,6 +20,12 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+#loaderContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
 #loader {
     margin: auto;
     height: 50%;
@@ -28,7 +34,6 @@
     border-top: .2rem solid skyblue;
     border-radius: 50%;
     animation: spinner 3s linear infinite;
-    box-sizing: border-box;
 }
 
 @keyframes spinner {
