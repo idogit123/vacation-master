@@ -155,7 +155,7 @@ export async function setRequestStatus(request_id: string, status: RequestStatus
 
     request.status = status
     console.log(request.status)
-    session.saveChanges()
+    await session.saveChanges()
 
     return true
 }

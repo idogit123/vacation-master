@@ -105,6 +105,6 @@ export async function setRequestStatus(request_id, status) {
     }
     request.status = status;
     console.log(request.status);
-    session.saveChanges();
+    await session.saveChanges();
     return true;
 }
